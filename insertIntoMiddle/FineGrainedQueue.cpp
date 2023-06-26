@@ -13,15 +13,15 @@ FineGrainedQueue::~FineGrainedQueue() {
 }
 
 void FineGrainedQueue::insertIntoMiddle(int value, int pos) {
-    // Создаём новый узел
+    // РЎРѕР·РґР°С‘Рј РЅРѕРІС‹Р№ СѓР·РµР»
     Node* new_node = new Node();
     new_node->value = value;
     new_node->node_mutex = new std::mutex;
 
-    // Блокируем мьютекс очереди
+    // Р‘Р»РѕРєРёСЂСѓРµРј РјСЊСЋС‚РµРєСЃ РѕС‡РµСЂРµРґРё
     queue_mutex->lock();
 
-    // Проверяем не превышает ли pos длину списка
+    // РџСЂРѕРІРµСЂСЏРµРј РЅРµ РїСЂРµРІС‹С€Р°РµС‚ Р»Рё pos РґР»РёРЅСѓ СЃРїРёСЃРєР°
     int length = 0;
     Node* current = head;
     while (current != nullptr && length < pos) {
@@ -30,7 +30,7 @@ void FineGrainedQueue::insertIntoMiddle(int value, int pos) {
     }
     if (pos > length) { pos = length; }
 
-    // Проходим по списку к позиции, в которую нужно вставить новый узел
+    // РџСЂРѕС…РѕРґРёРј РїРѕ СЃРїРёСЃРєСѓ Рє РїРѕР·РёС†РёРё, РІ РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ РІСЃС‚Р°РІРёС‚СЊ РЅРѕРІС‹Р№ СѓР·РµР»
     current = head;
     Node* previous = nullptr;
     for (int i = 0; i < pos; i++) {
@@ -38,19 +38,19 @@ void FineGrainedQueue::insertIntoMiddle(int value, int pos) {
         current = current->next;
     }
 
-    // Вставляем новый узел
+    // Р’СЃС‚Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СѓР·РµР»
     if (previous == nullptr) {
-        // Вставка в начало
+        // Р’СЃС‚Р°РІРєР° РІ РЅР°С‡Р°Р»Рѕ
         new_node->next = head;
         head = new_node;
     }
     else {
-        // Вставляем в середину или в конец
+        // Р’СЃС‚Р°РІР»СЏРµРј РІ СЃРµСЂРµРґРёРЅСѓ РёР»Рё РІ РєРѕРЅРµС†
         previous->next = new_node;
         new_node->next = current;
     }
 
-    // Разблокируем мьютекс очереди
+    // Р Р°Р·Р±Р»РѕРєРёСЂСѓРµРј РјСЊСЋС‚РµРєСЃ РѕС‡РµСЂРµРґРё
     queue_mutex->unlock();
 }
     
